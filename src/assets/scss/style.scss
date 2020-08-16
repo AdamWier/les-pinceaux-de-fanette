@@ -256,7 +256,8 @@ article img {
 .button {
 	--padding: 20px;
 	--margin: 20px;
-	display: inline-flex;
+	text-align: center;
+	// display: inline-flex;
 	align-items: center;
 	padding: var(--padding) calc(var(--padding) * 2);
 	background-color: var( --button-alternate-color);

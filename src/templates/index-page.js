@@ -36,12 +36,14 @@ export const pageQuery = graphql`
 
 const HomePage = ({ data }) => {
   const { markdownRemark } = data // data.markdownRemark holds your post data
-  const { frontmatter, html } = markdownRemark
+  const { frontmatter } = markdownRemark
+  // const { html } = markdownRemark
   const Image = frontmatter.featuredImage ? frontmatter.featuredImage.childImageSharp.fluid : ""
 	return (
 		<Layout>
       <SEO/>
-      <div className="home-banner grids col-1 sm-2">
+      <div className="grids lg-3">
+      <div></div>
       <div>
           {Image ? (
             <Img 
@@ -51,13 +53,18 @@ const HomePage = ({ data }) => {
             />
           ) : ""}
         </div>
-        <div>
+        <div></div>
+        {/* <div>
           <h1 class="title">{frontmatter.title}</h1>
-          <p class="tagline">{frontmatter.tagline}</p>
-          <div className="description" dangerouslySetInnerHTML={{__html: html}}/>
+          <p class="tagline">{frontmatter.tagline}</p> */}
+          {/* <div className="description" dangerouslySetInnerHTML={{__html: html}}/> */}
+        </div>
+        <div className="grids lg-3">
+        <div></div>
           <Link to={frontmatter.cta.ctaLink} className="button">{frontmatter.cta.ctaText}<span class="icon -right"><RiArrowRightSLine/></span></Link>
         </div>
-      </div>
+        <div></div>
+      {/* </div> */}
       {/* <BlogListHome/> */}
 		</Layout>
 	)
