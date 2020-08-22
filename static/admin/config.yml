@@ -1,3 +1,5 @@
+locale: 'fr'
+
 backend:
   name: git-gateway
   branch: main
@@ -9,7 +11,8 @@ backend:
     deleteMedia: '[skip ci] Delete “{{path}}”'
 
 # Uncomment local_backend when you need to develop in your local
-#local_backend: true # run npx netlify-cms-proxy-server for local testing
+local_backend: true 
+# run npx netlify-cms-proxy-server for local testing
 
 media_folder: "static/assets" 
 public_folder: "/assets" 
@@ -85,6 +88,52 @@ collections:
         - {label: "Slug", name: "slug", widget: "hidden", default: "/contact" }
         - {label: "Title", name: "title", widget: "string"}
         - {label: "Body", name: "body", widget: "markdown"}
+  - name: Forms
+    label: Formulaires
+    label_singular: Formulaire
+    description: Gérer les formulaires
+    folder: "src/content/forms"
+    slug: "{{name}}"
+    summary: "{{name}}"
+    create: true
+    extension: json
+    editor: {preview: false}
+    fields: 
+      - { label: 'Template', name: 'template', widget: 'hidden', default: 'form'}
+      - label: "Nom du formulaire"
+        name: "slug"
+        widget: "text"
+      - label: "Texte avant le formulaire"
+        name: "intro"
+        widget: "text"
+        required: false
+      - label: "Champs"
+        name: "fields"
+        widget: "list"
+        fields:
+          - {label: Etiquette, name: label, widget: string}
+          - label: Type
+            name: type
+            widget: select
+            options:
+              - { label: "Général (petit)", value: "input" }
+              - { label: "Général (grand)", value: "textArea" }
+              - { label: "Téléphone", value: "tel" }
+              - { label: "Email", value: "email" }
+              - { label: "Case à cocher", value: "checkbox" }
+              - { label: "Nombre", value: "number" }
+              - { label: "Couleur", value: "color" }
+              - { label: "Adresse URL", value: "url" }
+              - { label: "Date et heure", value: "datetime-local" }
+              - { label: "Date", value: "date" }
+              - { label: "Mois", value: "month" }
+              - { label: "Semaine", value: "week" }
+              - { label: "Heure", value: "time" }
+              - { label: "Mot de passe", value: "password" }
+      - label : "Texte après le formulaire"
+        name: "outro"
+        widget: "text"
+        required: false
   - name: settings
     label: Settings
     files:
@@ -122,7 +171,6 @@ collections:
                 name: twitterUsername
                 label: Twitter
                 required: false
-                
           - label: "Google Analytics"
             name: ga
             widget: string
