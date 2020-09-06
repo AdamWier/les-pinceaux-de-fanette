@@ -33,17 +33,18 @@ const AboutPage = ({ data }) => {
 			<div className="wrapper">
 				<h1>{frontmatter.title}</h1>
 				<div dangerouslySetInnerHTML={{ __html: frontmatter.intro }} />
-				<form netlify name="field" method="POST">
-				{
-					frontmatter.fields.map(field => {
-						if(field.type === 'textArea'){
-							return <div>{field.label}: <textarea name={field.label}/></div>
-						} else {
-							return <div>{field.label}: <input type={field.type} name={field.label}/></div>
-						}
-					})
-				}
-				<input type="submit"/>
+				<form  data-netlify="true" name={frontmatter.slug} method="POST">
+					<input type="hidden" name="form-name" value={frontmatter.slug} />
+					{
+						frontmatter.fields.map(field => {
+							if(field.type === 'textArea'){
+								return <div>{field.label}: <textarea name={field.label}/></div>
+							} else {
+								return <div>{field.label}: <input type={field.type} name={field.label}/></div>
+							}
+						})
+					}
+					<input type="submit"/>
 				</form>
 				<div dangerouslySetInnerHTML={{ __html: frontmatter.outro }} />
 			</div>
