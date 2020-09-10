@@ -9,9 +9,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      allMarkdownRemark(
-        sort: { order: DESC, fields: [frontmatter___date] }
-      ) {
+      allMarkdownRemark{
         edges {
           node {
             id
@@ -50,23 +48,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
         id,
         previous,
         next,
-      },
-    })
-  })
-
-  // Create blog-list pages
-  const postsPerPage = 9
-  const numPages = Math.ceil(posts.length / postsPerPage)
-
-  Array.from({ length: numPages }).forEach((_, i) => {
-    createPage({
-      path: i === 0 ? `/blog` : `/blog/${i + 1}`,
-      component: blogList,
-      context: {
-        limit: postsPerPage,
-        skip: i * postsPerPage,
-        numPages,
-        currentPage: i + 1,
       },
     })
   })
