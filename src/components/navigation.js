@@ -1,50 +1,51 @@
-import React from "react"
-import { Link } from "gatsby"
+import React, { useState } from "react"
+import { Link, useStaticQuery } from "gatsby"
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 
-const MenuItems = [
-  {
-    path: "/",
-    title: "Accueil"
-  },
-  {
-    path: "/about",
-    title: "Présenation"
-  },
-  // {
-  //   path: "/blog",
-  //   title: "Blog"
-  // },
-  {
-    path: "/contact",
-    title: "Contact"
-  },
-]
+const query = graphql`
+query pageTitles {
+  allMarkdownRemark {
+    edges {
+      node {
+        frontmatter {
+          title
+          slug
+        }
+      }
+    }
+  }
+}`
 
-const ListLink = (props) => (<li><Link to={props.to}>{props.children}</Link></li>)
+const ListLink = (props) => (
+  <li>
+    <Link to={props.to}>{props.children}</Link>
+  </li>)
 
 
-class Navigation extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {showMenu: false}
+const Navigation = () => {
+  const [showMenu, setShowMenu] = useState(false);
+  const siteData = useStaticQuery(query)
+  const { edges } = siteData.allMarkdownRemark;
 
-    this.handleToggleClick = this.handleToggleClick.bind(this);
+  const handleToggleClick = () => {
+    setShowMenu(!showMenu)    
   }
 
-  handleToggleClick() {
-    this.setState(state => ({      
-      showMenu: !state.showMenu    
-    }))
-  }
+  const listMenuItems = edges.map((menuItem, index) => 
+    <ListLink 
+      key={index} 
+      to={menuItem.node.frontmatter.slug}
+    >
+      {menuItem.node.frontmatter.title}
+    </ListLink>
+  )
 
-  render () {
-    const listMenuItems = MenuItems.map((menuItem, index) => 
-      <ListLink key={index} to={menuItem.path}>{menuItem.title}</ListLink>
-    )
-    return (
+  return(
       <nav className="site-navigation">
-        <button onClick={this.handleToggleClick} className={"menu-trigger" + (this.state.showMenu ? " is-active" : "")}>
+        <button 
+          onClick={handleToggleClick} 
+          className={"menu-trigger" + (showMenu ? " is-active" : "")}
+        >
           <div className="icon-menu-line"><RiMenu3Line/></div>
           <div className="icon-menu-close"><RiCloseLine/></div>
         </button>
@@ -52,8 +53,7 @@ class Navigation extends React.Component {
           {listMenuItems}
         </ul>
       </nav>
-    )
-  }
+  )
 }
 
 export default Navigation

@@ -62,8 +62,9 @@ collections:
     label_singular: Formulaire
     description: Gérer les formulaires
     folder: "src/content/forms"
-    slug: "{{name}}"
+    slug: "/{{name}}"
     summary: "{{name}}"
+    title: "{{name}}"
     create: true
     extension: json
     editor: {preview: false}
